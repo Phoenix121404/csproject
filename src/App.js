@@ -7,6 +7,7 @@ import MenuBar from './MenuBar.js';
 import LoginBar from './jsx/LoginBar.js'
 import About from './About.js';
 import Forgot from './jsx/Forgot.js'
+import Menu from './jsx/Menu.js'
 
 const AppContent=()=>{
   const location=useLocation();//get loc
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/forgot"element={<Forgot />} />
+          <Route path="/menu"element={<Menu />}/>
         </Routes>
       </div>
     </Router>

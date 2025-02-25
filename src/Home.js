@@ -4,25 +4,49 @@ import './css/box.css'
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Forgot from './jsx/Forgot.js'
 import About from './About.js';
+import Menu from './jsx/Menu.js'
+import MenuBar from './MenuBar.js';
+import LoginBar from './jsx/LoginBar.js'
 
 const handleLogin=async()=>{
 
 }
 
-
+const AppContent=()=>{
+  const location=useLocation();//get loc
+  const hideMenuOn=['/','/forgot'];//hide menubar on login page
+  return(
+    <>
+    {!hideMenuOn.includes(location.pathname)&&<MenuBar/>} 
+      
+    </>
+  )   
+  //conditional to hide menu bar if the location login is found
+}
+const LogBar=()=>{
+  const location=useLocation();
+  const hideOn=['about'];
+  return(
+    <>
+    {!hideOn.includes(location.pathname)&&<LoginBar/>}
+    </>
+  )
+}
 
 const Home = () => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
+
+
   //routes for the site
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/About" element={<About />} />
-    <Route path="/forgot" element={<Forgot />} />
-  </Routes>
+  
+
   return (
+    
     <div className="container">
+      <AppContent />
+      <LogBar />
       <div className="information-box">
         <h2>Login</h2>
 
@@ -41,7 +65,7 @@ const Home = () => {
             onChange={(e) => setPass(e.target.value)}
             placeholder="Enter password"></input>
 
-          <a href="https://google.com" className="forgor">Forgot your password?</a>
+          <Link to="/menu" className="forgor">Forgot your password?</Link>
 
           
         </div>

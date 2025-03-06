@@ -2,7 +2,7 @@ body{
     background-color: rgb(121, 119, 119);
 }
 
-.container{
+.contain{
     display:flex;
     
     justify-content: center;
@@ -10,7 +10,7 @@ body{
 }
 
 /*class for the login box*/
-.information-box {
+.informationBox {
     padding : 50px;
     
     background-color:lightgray;
@@ -31,7 +31,7 @@ body{
 }
 
 /*class for the text boxes/text near them*/
-.textbox-cont{
+.textboxCont{
     
     display:flex;
     flex-direction:column;
@@ -40,7 +40,7 @@ body{
     
 
 }
-.textbox-cont input{
+.textboxCont input{
     margin-top:50px;
     padding:10px;
     border-radius:8px;

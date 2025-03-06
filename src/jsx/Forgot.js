@@ -18,11 +18,11 @@ const Forgot=()=>{
           <Route path="/forgot"element={<Forgot />} />
         </Routes>
   return(
-    <div className="container">
-        <div className="information-box">
+    <div className="contain">
+        <div className="informationBox">
             <h2>Register</h2>
 
-            <div className="textbox-cont">
+            <div className="textboxCont">
             <input type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

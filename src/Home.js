@@ -44,16 +44,16 @@ const Home = () => {
 
   return (
     
-    <div className="container">
+    <div className="contain">
       <AppContent />
       <LogBar />
-      <div className="information-box">
+      <div className="informationBox">
         <h2>Login</h2>
 
 
 
 
-        <div className="textbox-cont">
+        <div className="textboxCont">
 
           <input type="text"
             value={email}

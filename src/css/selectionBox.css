@@ -1,0 +1,113 @@
+body{
+    height:100%;
+    margin:0;
+    background-color: rgb(121, 119, 119);
+}
+
+.container{
+    display:flex;
+    
+    justify-content: center;
+    align-items:flex-start;
+    min-height: 100vh;
+    padding-bottom:400px;
+}
+
+/*class for the login box*/
+.information-box {
+    padding : 50px;
+    
+    background-color:lightgray;
+    border:5px solid rgb(0, 0, 0);
+    border-radius:8px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+   
+    width: 1500px;
+    min-height:fit-content;/*allows dynamic height*/
+    height:auto;
+    margin-top: 100px;
+    
+
+    display: flex; /*enables flexbox*/
+    flex-direction:column;/*stack items vertically*/
+    align-items:center;/*centers them vertically*/
+    
+    gap:20px;
+    padding:20px;
+}
+
+.information-box h2{
+    margin-top: 0;
+}
+
+.information-box p {
+    font-size:16px;
+}
+
+/*class for the text boxes/text near them*/
+.textbox-cont{
+    
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    
+    
+
+}
+.textbox-cont input{
+    margin-top:50px;
+    padding:10px;
+    border-radius:8px;
+    font-size:15px;
+    
+
+}
+
+.forgor{
+    text-align: right;
+    
+}
+.textbox-cont a{
+    color:black;
+}
+.textbox-cont p{
+    color:rgb(6, 150, 150);
+}
+.textbox-cont a:hover{
+    color:rgb(226, 164, 29);
+    
+}
+
+.button{
+    width:50px;
+    
+}
+.dont{
+    margin-top:30px;
+}
+.sign:hover{
+    color:rgb(226, 164, 29);
+}
+
+.button{
+    margin-top:30px;
+    height:25px;
+    width:75px;
+    border-radius:8px;
+    border:2px solid rgb(56, 53, 53);
+    transition:background-color 0.3s;
+}
+.buttonCreate{
+    margin-top:30px;
+    height:25px;
+    width:150px;
+    border-radius:8px;
+    border:2px solid rgb(56, 53, 53);
+    transition:background-color 0.3s;
+}
+.button:hover{
+    background-color:rgb(226,164,29);
+}
+.buttonCreate:hover{
+    background-color:rgb(226,164,29);
+}

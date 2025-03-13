@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 import '../css/selectionBox.css';
@@ -9,6 +9,8 @@ import Forgot from './Forgot.js';
 import About from '../About.js';
 import MenuBar from '../MenuBar.js';
 import LoginBar from './LoginBar.js';
+import plusImg from '../imgs/orangePlus.png';
+import {fetchProductInfo}from './getProductInfo.js';
 
 
 
@@ -33,56 +35,85 @@ const LogBar = () => {
     </>
   )
 }
-const API_URL =
+const API_URL =//test query
   "https://real-time-amazon-data.p.rapidapi.com/search?query=Phone&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL&is_prime=false&deals_and_discounts=NONE";
 
+  function ProductPage({ asin }) {
+    const [productData, setProductData] = useState(null);//use states
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
   
+    useEffect(() => {
+      if (!asin) return;//return if not found
+  
+      const loadProduct = async () => {
+        try {
+          const data = await fetchProductInfo(asin);//wait for info to return
+          setProductData(data);//set data
+        } catch (err) {//error handling
+          setError("Failed to load product data.");
+        } finally {
+          setLoading(false);//done loading
+        }
+      };
+  
+      loadProduct();//call function
+    }, [asin]);
+  
+    if (loading) return <p>Loading product...</p>;//dynamic use states
+    if (error) return <p>{error}</p>;
+    if (!productData) return <p>No product found.</p>;
+  
+    return (//display product
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px" }}>
+        <img
+          src={productData.data.product_photo || "https://via.placeholder.com/150"}//display image photo
+          alt={productData.data.product_title || "Product"}//alternate to photo
+          style={{ width: "75px", height: "75px" }}//size
+        />
+        <div>
+          <p>{productData.data.product_information.Series}</p>
+          <p>Price: {productData.data.product_price? `$${productData.data.product_price}` : "Unavailable"}</p>
+        </div>
+        
+      </div>//display title and price
+    );
+  }
 
 const Menu = () => {
 
   const [data, setData] = useState(null);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(API_URL, {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key": "84b6167ba8mshc9988e1d597379bp14a64bjsnb548ea849fd2",
-            "x-rapidapi-host": "real-time-amazon-data.p.rapidapi.com",
-          },
-        });
+  const asin="B0CGJDKLB8";
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
 
-        const result = await response.json();
-        setData(result); // Store the data in state
-        console.log(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData(); // Call the function inside useEffect
-  }, []); // Empty dependency array to run only once
 
 
   return (
-    /*overall container*/ 
+    /*overall container*/
     <div className="container">
-      
+
       <AppContent />
       <div className="information-box">
-        
+
         <h2>Click a part to Select</h2>
         <div className="minicont">
           <div className="mini-info">
             <h2>CPU</h2>
+            <ProductPage asin={asin}/>
+
+
+
+            
           </div>
           <div className="mini-info">
             <h2>GPU</h2>
+            <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",padding:"20px" }}>
+              <img src={plusImg}
+                alt="plus"
+                style={{ width: '75px', height: '75px' }}
+              />
+              <button className="button">Select</button>
+            </div>
 
           </div>
           <div className="mini-info">
@@ -100,12 +131,12 @@ const Menu = () => {
           </div>
           <div className="mini-info">
             <h2>Case</h2>
-            {data ? <pre>{JSON.stringify(data,null,2)}</pre>:<p>Loading...</p>}
+            {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>Loading...</p>}
           </div>
-          
-          
-          
-          
+
+
+
+
 
         </div>
       </div>

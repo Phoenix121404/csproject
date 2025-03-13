@@ -20,6 +20,8 @@
     min-height:fit-content;
     width: 600px;
 
+   
+
     flex: 1 1 600px;
     align-self:center;/*allows wrapping*/
     max-width:600px;/*prevents stretching*/

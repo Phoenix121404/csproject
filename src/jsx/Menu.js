@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 import '../css/selectionBox.css';
@@ -33,8 +33,40 @@ const LogBar = () => {
     </>
   )
 }
+const API_URL =
+  "https://real-time-amazon-data.p.rapidapi.com/search?query=Phone&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL&is_prime=false&deals_and_discounts=NONE";
+
+  
 
 const Menu = () => {
+
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "x-rapidapi-key": "84b6167ba8mshc9988e1d597379bp14a64bjsnb548ea849fd2",
+            "x-rapidapi-host": "real-time-amazon-data.p.rapidapi.com",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setData(result); // Store the data in state
+        console.log(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the function inside useEffect
+  }, []); // Empty dependency array to run only once
 
 
   return (
@@ -68,6 +100,7 @@ const Menu = () => {
           </div>
           <div className="mini-info">
             <h2>Case</h2>
+            {data ? <pre>{JSON.stringify(data,null,2)}</pre>:<p>Loading...</p>}
           </div>
           
           

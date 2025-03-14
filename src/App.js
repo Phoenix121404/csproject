@@ -36,8 +36,7 @@ function App() {
     <div className="App">
       
       <Router>
-      <AppContent />
-      <LogBar />
+      
       <div style={{ marginTop: '60px', padding: '20px' }}>
         <Routes>
           <Route path="/" element={<Home />} />

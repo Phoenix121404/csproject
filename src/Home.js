@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './css/box.css'
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +7,9 @@ import About from './About.js';
 import Menu from './jsx/Menu.js'
 import MenuBar from './MenuBar.js';
 import LoginBar from './jsx/LoginBar.js'
+import { auth } from './Firebase.js';
+import { signUp, signIn, logOut } from './Auth.js';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const handleLogin=async()=>{
 
@@ -34,10 +37,19 @@ const LogBar=()=>{
 }
 
 const Home = () => {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
 
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  useEffect(() => {
+      // Listen for auth state changes
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setUser(user);
+      });
+
+      return () => unsubscribe();
+  }, []);
 
   //routes for the site
   
@@ -55,25 +67,26 @@ const Home = () => {
 
         <div className="textboxCont">
 
-          <input type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email address"></input>
-
-          <input type="text"
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-            placeholder="Enter password"></input>
+        <input 
+          type="email" 
+          placeholder="Enter Email"
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} />
+        <input 
+          type="password" 
+          placeholder="Enter Password"
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} />
 
           <Link to="/menu" className="forgor">Forgot your password?</Link>
 
           
         </div>
-        <button onClick={handleLogin} className="button">Login</button>
 
-          <p className="dont">Don't Have an Account? <Link to="/forgot" className="sign">Sign up</Link></p>
-
-
+        <button onClick={() => signUp(email, password)}>Sign Up</button>
+        <button onClick={() => signIn(email, password)}>Sign In</button>
+        <button onClick={logOut} style={{ display: user ? "block" : "none" }}>Sign Out</button>
+        <p>{user ? `Logged in as: ${user.email}` : "Not logged in"}</p>
 
       </div>
 

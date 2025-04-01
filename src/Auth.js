@@ -1,27 +1,48 @@
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "./Firebase.js";
-
+import { auth, db,createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "./Firebase.js";
+import { Link,useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { setDoc, doc } from 'firebase/firestore';
 // Sign up a new user
-function signUp(email, password) {
-    createUserWithEmailAndPassword(auth, email, password)
+const signUp=async(email, password) =>{
+     createUserWithEmailAndPassword(auth, email, password)
+
     .then((userCredential) => {
         console.log("User Created:", userCredential.user);
+        const user=userCredential.user;
+        setDoc(doc(db, "users", user.uid), {
+        name: "phoenix"
+        })
+
     })
 
     .catch((error) => {
         console.log("Sign Up Error:", error.message);
     })
+    
+    
+    
+
+
+
 }
 
 // Sign in a user
 function signIn(email, password) {
+   
+
+
     signInWithEmailAndPassword(auth, email, password)
+    
     .then((userCredential) => {
+        
+
         console.log("User Signed In:", userCredential.user);
     })
 
     .catch((error) => {
         console.log("Sign Ip Error:", error.message);
     })
+   
 }
 
 // Sign out a user

@@ -7,9 +7,12 @@ import About from './About.js';
 import Menu from './jsx/Menu.js'
 import MenuBar from './MenuBar.js';
 import LoginBar from './jsx/LoginBar.js'
-import { auth } from './Firebase.js';
+import { db,auth } from './Firebase.js';
+import {setDoc,doc}from 'firebase/firestore';
 import { signUp, signIn, logOut } from './Auth.js';
 import { onAuthStateChanged } from 'firebase/auth';
+
+
 
 const handleLogin=async()=>{
 
@@ -41,6 +44,7 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate();
 
   useEffect(() => {
       // Listen for auth state changes
@@ -51,7 +55,25 @@ const Home = () => {
       return () => unsubscribe();
   }, []);
 
-  //routes for the site
+  const LogIn=()=>{
+    
+    signIn(email, password);
+    navigate("/menu");
+
+  }
+
+  const handleSignUp=async ()=>{
+    try{
+      signUp(email, password);
+      
+
+      
+
+
+    }catch(error){
+      console.error("error signing up",error.message);
+    }
+  };
   
 
   return (
@@ -83,8 +105,8 @@ const Home = () => {
           
         </div>
 
-        <button onClick={() => signUp(email, password)}>Sign Up</button>
-        <button onClick={() => signIn(email, password)}>Sign In</button>
+        <button onClick={handleSignUp}>Sign Up</button>
+        <button onClick={ LogIn}>Sign In</button>
         <button onClick={logOut} style={{ display: user ? "block" : "none" }}>Sign Out</button>
         <p>{user ? `Logged in as: ${user.email}` : "Not logged in"}</p>
 

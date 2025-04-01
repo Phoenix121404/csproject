@@ -38,6 +38,7 @@ const LogBar = () => {
 const API_URL =//test query
   "https://real-time-amazon-data.p.rapidapi.com/search?query=Phone&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL&is_prime=false&deals_and_discounts=NONE";
 
+  
   function ProductPage({ asin }) {
     const [productData, setProductData] = useState(null);//use states
     const [loading, setLoading] = useState(true);

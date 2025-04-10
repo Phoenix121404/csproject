@@ -36,6 +36,24 @@ body{
     padding:20px;
 }
 
+.filter-box{
+    background-color: lightgray;
+    border: 5px solid orange;
+    border-radius:8px;
+
+    width: 450px;
+    min-height:fit-content;
+    height: auto;
+    margin-top:100px;
+
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:20px;
+    padding:20px;
+}
+
 .information-box h2{
     margin-top: 0;
 }

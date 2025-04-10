@@ -1,6 +1,7 @@
 .minicont{
     display: flex;
     flex-wrap:wrap;/*allows wrapping*/
+    
 
     justify-content:center;
     gap:20px;
@@ -8,6 +9,7 @@
     min-height:fit-content;/*allows dynamic height*/
 
 }
+
 
 .mini-info{
     
@@ -28,4 +30,21 @@
     
     
 
+}
+.browseDisplay{
+    margin-top:50px;
+    background-color: lightgray;
+    border: 5px solid orange;
+    border-radius:8px;
+    
+    height: auto;
+    min-height:fit-content;
+    width: 100%;
+    max-width: 600px;
+
+   flex:1 1 300px;
+
+    
+    align-self:center;/*allows wrapping*/
+    max-width:600px;/*prevents stretching*/
 }

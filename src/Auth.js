@@ -10,7 +10,14 @@ const signUp=async(email, password) =>{
         console.log("User Created:", userCredential.user);
         const user=userCredential.user;
         setDoc(doc(db, "users", user.uid), {
-        name: "phoenix"
+        cpu: "",
+        gpu: "",
+        motherboard: "",
+        ram: "",
+        cooler: "",
+        power: "",
+        case: "",
+
         })
 
     })

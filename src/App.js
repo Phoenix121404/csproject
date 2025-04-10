@@ -9,6 +9,7 @@ import About from './About.js';
 import Forgot from './jsx/Forgot.js'
 import Menu from './jsx/Menu.js'
 import Product from './jsx/productSelection.js'
+import BrowseParts from './jsx/BrowseParts.js'
 
 const AppContent=()=>{
   const location=useLocation();//get loc
@@ -44,6 +45,8 @@ function App() {
           <Route path="/forgot"element={<Forgot />} />
           <Route path="/menu"element={<Menu />}/>
           <Route path="/product"element={<Product/>}/>
+          <Route path="/browse/:type"element={<BrowseParts/>}/>
+
         </Routes>
       </div>
     </Router>

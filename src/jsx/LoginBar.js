@@ -9,7 +9,10 @@ const LoginBar=()=>{
             <h2 className="logo">
                 PC Picker
             </h2>
-            <div >
+            <div className="menu">
+            <Link to="/menu">Home</Link>
+            </div>
+            <div>
             <img src={logo}
                 alt="Logo"
                 style={{width: '50px',height:'50px'}}

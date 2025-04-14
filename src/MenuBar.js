@@ -7,7 +7,7 @@ const MenuBar = () => {
     <nav className="navbar">
       <h2 className="logo">PC Picker</h2>
       <div className="menu">
-      <Link to="/">Home</Link>
+      <Link to="/">Login</Link>
         <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link>
       </div>

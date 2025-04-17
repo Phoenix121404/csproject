@@ -86,6 +86,8 @@ const ProductSearch = ({ query, part }) => {
                 updateData.case = asin;
             } else if (part === "mother") {
                 updateData.motherboard = asin;
+            }else if(part==="storage"){
+                updateData.storage=asin;
             }
             await updateDoc(userDocRef, updateData);
 
@@ -119,7 +121,9 @@ const ProductSearch = ({ query, part }) => {
                                 product.product_title.toLowerCase().includes("power supply") ||
 
                                 product.product_title.toLowerCase().includes("cooler")||
-                                product.product_title.toLowerCase().includes("motherboard")
+                                product.product_title.toLowerCase().includes("motherboard")||
+                                product.product_title.toLowerCase().includes("ssd")||
+                                product.product_title.toLowerCase().includes("hdd")
                             ) ? "none" : "block"
                         }}>
                             <div >
@@ -223,6 +227,22 @@ const ProductSearch = ({ query, part }) => {
                                         </div>
                                     )}
                                     {part === "cooler" && product.product_title.toLowerCase().includes("cooler") && (
+                                        <div>
+                                            <h3>{product.product_title}</h3>
+                                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px" }}>
+                                                <img src={product.product_photo} alt={product.product_title} style={{ width: '75px', height: '75px' }} />
+                                                <p>{product.product_price}</p>
+                                                <p>Rating: {product.product_star_rating}</p>
+                                                <a href={product.product_url} target="_blank" rel="noopener noreferrer">
+                                                    View on Amazon
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <button className="button" onClick={() => handleSelect(product.asin)}>Select</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {part === "storage"  && (
                                         <div>
                                             <h3>{product.product_title}</h3>
                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px" }}>
@@ -1344,7 +1364,110 @@ const CaseFiltering = () => {
         </div>
     )
 }
+const StorageFiltering=()=>{
+    const [StorageFilters, SetStorageFilters] = useState({
+        brand: "",
+        size: "",
+        type: "",
+        speed: ""
 
+    })
+    const handleSelectionChange = (event) => {
+        SetStorageFilters(prevFilters => ({
+            ...prevFilters,
+            brand: event.target.value
+        }));
+    }
+    const handleSizeChange = (event) => {
+        SetStorageFilters(prevFilters => ({
+            ...prevFilters,
+            size: event.target.value
+        }));
+    }
+    const handleTypeChange = (event) => {
+        SetStorageFilters(prevFilters => ({
+            ...prevFilters,
+            type: event.target.value
+        }));
+    }
+    const handleSpeedChange = (event) => {
+        SetStorageFilters(prevFilters => ({
+            ...prevFilters,
+            speed: event.target.value
+        }));
+    }
+    let filterStorage = [];
+    if (StorageFilters.brand != "") {
+        filterStorage.push(StorageFilters.brand);
+        filterStorage.push("internal storage")
+    }
+    if (StorageFilters.size != "") {
+        filterStorage.push(StorageFilters.size);
+    }
+    if (StorageFilters.type != "") {
+        filterStorage.push(StorageFilters.type);
+    }
+    if (StorageFilters.speed != "") {
+        filterStorage.push(StorageFilters.speed);
+    }
+    let filterQuery = filterStorage.length > 0
+        ? `${filterStorage.join("-")}`
+        : "samsung/western-digital/crucial gaming pc storage";
+    let query = `https://real-time-amazon-data.p.rapidapi.com/search?query=${filterQuery}&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL&brand=${StorageFilters.brand}&is_prime=false&deals_and_discounts=NONE`;
+    return (
+        <div className="container">
+            <AppContent />
+            <div className="filter-box">
+                <div>
+                    <div>
+                        <select name="brand" value={StorageFilters.brand} onChange={handleSelectionChange}>
+                            <option value="">Choose a Brand</option>
+                            <option value="Samsung">Samsung</option>
+                            <option value="Western Digital">Western Digital</option>
+                            <option value="Crucial">Crucial</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select name="size" value={StorageFilters.size} onChange={handleSizeChange}>
+                            <option value="">Choose a Size</option>
+                            <option value="500GB">500GB</option>
+                            <option value="1TB">1TB</option>
+                            <option value="2TB+">2TB+</option>
+
+                        </select>
+                    </div>
+                    <div>
+                        <select name="type" value={StorageFilters.type} onChange={handleTypeChange}>
+                            <option value="">Choose a Type</option>
+                            <option value="SSD NVMe PCIe">SSD</option>
+                            <option value="HDD">HDD</option>
+
+                        </select>
+                    </div>
+                    <div>
+                        {StorageFilters.type!=""&&(
+                            <div>
+                                <div>
+                                    {StorageFilters.type==="SSD NVMe PCIe"&&(
+                                        <select name="type" value={StorageFilters.speed} onChange={handleSpeedChange}>
+                                        <option value="">Choose a Speed</option>
+                                        <option value="7000+ MB/s">7000+ MB/s</option>
+                                        <option value="5000-6999 MB/s">5000-6999 MB/s</option>
+                                        <option value="3000-4999 MB/s">3000-4999 MB/s</option>
+                                    </select>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div className="information-box">
+                <ProductSearch query={query} part="storage" />
+            </div>
+        </div>
+    )
+}
 const ShowFilters = ({ part }) => {
 
 
@@ -1379,6 +1502,10 @@ const ShowFilters = ({ part }) => {
     } else if (part === "Mother") {
         return (
             MotherFiltering()
+        )
+    }else if(part==="storage"){
+        return(
+            StorageFiltering()
         )
     }
 

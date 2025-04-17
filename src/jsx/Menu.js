@@ -5,8 +5,8 @@ import '../css/selectionBox.css';
 import '../css/miniBox.css';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { db, auth } from '../Firebase.js';
-import { onAuthStateChanged,getAuth } from "firebase/auth";
-import { doc, getDoc,updateDoc } from "firebase/firestore";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Forgot from './Forgot.js';
 import About from '../About.js';
 import MenuBar from '../MenuBar.js';
@@ -53,36 +53,38 @@ function ProductPage({ asin, componentType }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const handleRemoval = async (componentType) => {
     const auth = getAuth();
     const user = auth.currentUser;
-    
-  
+
+
     const userDocRef = doc(db, "users", user.uid);
-  
+
     try {
       let updateData = {};
       if (componentType === "CPU") {
         updateData.cpu = "";
-      }else if(componentType==="GPU"){
-        updateData.gpu="";
-      }else if(componentType==="RAM"){
-        updateData.ram="";
-      }else if(componentType==="cooler"){
-        updateData.cooler="";
-      }else if(componentType==="PSU"){
-        updateData.power="";
-      }else if(componentType==="case"){
-        updateData.case="";
-      }else if(componentType==="Mother"){
-        updateData.motherboard="";
+      } else if (componentType === "GPU") {
+        updateData.gpu = "";
+      } else if (componentType === "RAM") {
+        updateData.ram = "";
+      } else if (componentType === "cooler") {
+        updateData.cooler = "";
+      } else if (componentType === "PSU") {
+        updateData.power = "";
+      } else if (componentType === "case") {
+        updateData.case = "";
+      } else if (componentType === "Mother") {
+        updateData.motherboard = "";
+      } else if (componentType === "storage") {
+        updateData.storage = "";
       }
       await updateDoc(userDocRef, updateData);
-  
+
       window.location.reload();
-  
-  
+
+
     } catch (error) {
       console.error(error);
     }
@@ -118,10 +120,14 @@ function ProductPage({ asin, componentType }) {
         style={{ width: "75px", height: "75px" }}//size
       />
       <div>
-        <p>{productData.data.product_information.Series||productData.data.product_information.Processor}</p>
+        {(productData?.data?.product_information?.Series || productData?.data?.product_information?.Processor) && (
+          <p>
+            {productData.data.product_information.Series || productData.data.product_information.Processor}
+          </p>
+        )}
         <p>{productData.data.product_title}</p>
         <p>Price: {productData.data.product_price ? `$${productData.data.product_price}` : "Unavailable"}</p>
-        
+
       </div>
       <div>
         <button className="button" onClick={() => handleRemoval(componentType)} >Remove</button>
@@ -152,6 +158,30 @@ const Menu = () => {
 
   const GoToBrowse = (type) => {
     navigate(`/browse/${type}`)
+  }
+  const RemoveAll = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const userDocRef = doc(db, "users", user.uid);
+
+    try {
+      let updateData = {}
+      updateData.cpu = "";
+      updateData.gpu = "";
+      updateData.ram = "";
+      updateData.motherboard = "";
+      updateData.power = "";
+      updateData.storage = "";
+      updateData.cooler = "";
+      updateData.case = "";
+      updateData.storage = "";
+      await updateDoc(userDocRef, updateData);
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+
   }
 
   useEffect(() => {
@@ -202,12 +232,13 @@ const Menu = () => {
   }
 
   const userCPUVal = userData ? userData.cpu : "";//get cpu val
-  const userGPUVal=userData ? userData.gpu: "";//get gpu val
-  const userMotherVal=userData ? userData.motherboard: "";
-  const userRAMVal=userData ? userData.ram:"";
-  const usercoolerVal=userData? userData.cooler:"";
-  const userPSUVal=userData? userData.power:"";
-  const userCaseVal=userData?userData.case:"";
+  const userGPUVal = userData ? userData.gpu : "";//get gpu val
+  const userMotherVal = userData ? userData.motherboard : "";
+  const userRAMVal = userData ? userData.ram : "";
+  const usercoolerVal = userData ? userData.cooler : "";
+  const userPSUVal = userData ? userData.power : "";
+  const userCaseVal = userData ? userData.case : "";
+  const userStorageVal = userData ? userData.storage : "";
 
   return (
     /*overall container*/
@@ -217,6 +248,7 @@ const Menu = () => {
       <div className="information-box">
 
         <h2>Click a part to Select</h2>
+        <button className="button" onClick={() => RemoveAll()}>Remove All</button>
         <div className="minicont">
           <div className="mini-info">
             <h2>CPU</h2>
@@ -226,7 +258,7 @@ const Menu = () => {
                   alt="plus"
                   style={{ width: '75px', height: '75px' }}
                 />
-                
+
                 <button onClick={() => GoToBrowse("CPU")} className="button">Select</button>
               </div>
 
@@ -236,97 +268,112 @@ const Menu = () => {
           </div>
           <div className="mini-info">
             <h2>GPU</h2>
-            {userGPUVal===""?(
+            {userGPUVal === "" ? (
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
-              <img src={plusImg}
-                alt="plus"
-                style={{ width: '75px', height: '75px' }}
-              />
-              <button onClick={() => GoToBrowse("GPU")} className="button">Select</button>
-            </div>
-            ):(
-              <ProductPage asin={userGPUVal}componentType="GPU"/>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("GPU")} className="button">Select</button>
+              </div>
+            ) : (
+              <ProductPage asin={userGPUVal} componentType="GPU" />
 
             )}
-            
+
 
           </div>
           <div className="mini-info">
             <h2>Motherboard</h2>
-            {userMotherVal===""?(
+            {userMotherVal === "" ? (
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
-              <img src={plusImg}
-                alt="plus"
-                style={{ width: '75px', height: '75px' }}
-              />
-              <button onClick={() => GoToBrowse("Mother")} className="button">Select</button>
-            </div>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("Mother")} className="button">Select</button>
+              </div>
 
-            ):(
-              <ProductPage asin={userMotherVal}componentType="Mother"/>
+            ) : (
+              <ProductPage asin={userMotherVal} componentType="Mother" />
             )}
           </div>
           <div className="mini-info">
             <h2>RAM</h2>
-            {userRAMVal===""?(
+            {userRAMVal === "" ? (
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
-              <img src={plusImg}
-                alt="plus"
-                style={{ width: '75px', height: '75px' }}
-              />
-              <button onClick={() => GoToBrowse("RAM")} className="button">Select</button>
-            </div>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("RAM")} className="button">Select</button>
+              </div>
 
-            ):(
-              <ProductPage asin={userRAMVal}componentType="RAM"/>
+            ) : (
+              <ProductPage asin={userRAMVal} componentType="RAM" />
             )}
 
           </div>
           <div className="mini-info">
             <h2>Cooler</h2>
-            {usercoolerVal===""?(
+            {usercoolerVal === "" ? (
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
-              <img src={plusImg}
-                alt="plus"
-                style={{ width: '75px', height: '75px' }}
-              />
-              <button onClick={() => GoToBrowse("cooler")} className="button">Select</button>
-            </div>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("cooler")} className="button">Select</button>
+              </div>
 
-            ):(
-              <ProductPage asin={usercoolerVal}componentType="cooler"/>
+            ) : (
+              <ProductPage asin={usercoolerVal} componentType="cooler" />
             )}
 
           </div>
           <div className="mini-info">
             <h2>Power Supply</h2>
-            {userPSUVal===""?(
+            {userPSUVal === "" ? (
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
-              <img src={plusImg}
-                alt="plus"
-                style={{ width: '75px', height: '75px' }}
-              />
-              <button onClick={() => GoToBrowse("PSU")} className="button">Select</button>
-            </div>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("PSU")} className="button">Select</button>
+              </div>
 
-            ):(
-              <ProductPage asin={userPSUVal}componentType="PSU"/>
+            ) : (
+              <ProductPage asin={userPSUVal} componentType="PSU" />
             )}
 
           </div>
           <div className="mini-info">
             <h2>Case</h2>
-            {userCaseVal===""?(
+            {userCaseVal === "" ? (
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
-              <img src={plusImg}
-                alt="plus"
-                style={{ width: '75px', height: '75px' }}
-              />
-              <button onClick={() => GoToBrowse("case")} className="button">Select</button>
-            </div>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("case")} className="button">Select</button>
+              </div>
 
-            ):(
-              <ProductPage asin={userCaseVal}componentType="case"/>
+            ) : (
+              <ProductPage asin={userCaseVal} componentType="case" />
+            )}
+          </div>
+          <div className="mini-info">
+            <h2>Storage</h2>
+            {userStorageVal === "" ? (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px" }}>
+                <img src={plusImg}
+                  alt="plus"
+                  style={{ width: '75px', height: '75px' }}
+                />
+                <button onClick={() => GoToBrowse("storage")} className="button">Select</button>
+              </div>
+
+            ) : (
+              <ProductPage asin={userStorageVal} componentType="storage" />
             )}
           </div>
 

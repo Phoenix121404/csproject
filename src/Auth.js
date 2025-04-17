@@ -17,6 +17,7 @@ const signUp=async(email, password) =>{
         cooler: "",
         power: "",
         case: "",
+        storage:""
 
         })
 

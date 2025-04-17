@@ -32,7 +32,7 @@ const signUp=async(email, password) =>{
 }
 
 // Sign in a user
-function signIn(email, password) {
+function signIn(email, password,navigate) {
    
 
 
@@ -42,6 +42,7 @@ function signIn(email, password) {
     
     .then((userCredential) => {
         console.log("User Signed In:", userCredential.user);
+        navigate("/menu");
     })
 
     .catch((error) => {

@@ -57,7 +57,7 @@ const Home = () => {
 
   const LogIn = () => {
     
-    signIn(email, password);
+    signIn(email, password,navigate);
 
   };
 

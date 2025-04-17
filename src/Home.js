@@ -10,7 +10,7 @@ import LoginBar from './jsx/LoginBar.js'
 import { db,auth } from './Firebase.js';
 import {setDoc,doc}from 'firebase/firestore';
 import { signUp, signIn, logOut } from './Auth.js';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, reload } from 'firebase/auth';
 
 
 
@@ -55,23 +55,20 @@ const Home = () => {
       return () => unsubscribe();
   }, []);
 
-  const LogIn=()=>{
+  const LogIn = () => {
     
     signIn(email, password);
-    navigate("/menu");
 
-  }
+  };
 
   const handleSignUp=async ()=>{
     try{
       signUp(email, password);
       
-
-      
-
-
     }catch(error){
       console.error("error signing up",error.message);
+      setEmail("");
+      setPassword("");
     }
   };
   
@@ -82,10 +79,7 @@ const Home = () => {
       <AppContent />
       <LogBar />
       <div className="informationBox">
-        <h2>Login</h2>
-
-
-
+        <h2>Login/Sign Up</h2>
 
         <div className="textboxCont">
 
@@ -106,7 +100,7 @@ const Home = () => {
         </div>
 
         <button onClick={handleSignUp}>Sign Up</button>
-        <button onClick={ LogIn}>Sign In</button>
+        <button onClick={LogIn}>Sign In</button>
         <button onClick={logOut} style={{ display: user ? "block" : "none" }}>Sign Out</button>
         <p>{user ? `Logged in as: ${user.email}` : "Not logged in"}</p>
 

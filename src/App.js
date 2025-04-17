@@ -19,7 +19,7 @@ const AppContent=()=>{
     {!hideMenuOn.includes(location.pathname)&&<MenuBar/>} 
       
     </>
-  )   
+  )
   //conditional to hide menu bar if the location login is found
 }
 const LogBar=()=>{

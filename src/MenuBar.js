@@ -156,33 +156,33 @@ function ShowQuiz({ show, onExit }) {
         updateData.storage = "B0BHJJ9Y77";
         if (rgb === "yes") {
           updateData.ram = "B09Z1Z9H2Z";
-          updateData.motherboard="B0BDTN8SNJ";
-          updateData.case="B09SFFSC9D";
-          updateData.cooler="B0BQJ6QL7L";
-        }else{
-          updateData.ram="B0C5M7J967";
-          updateData.motherboard="B0BDTN8SNJ";
-          updateData.case="B08146X79Y";
-          updateData.cooler="B098XP1Y38";
+          updateData.motherboard = "B0BDTN8SNJ";
+          updateData.case = "B09SFFSC9D";
+          updateData.cooler = "B0BQJ6QL7L";
+        } else {
+          updateData.ram = "B0C5M7J967";
+          updateData.motherboard = "B0BDTN8SNJ";
+          updateData.case = "B08146X79Y";
+          updateData.cooler = "B098XP1Y38";
         }
 
-      }else{
-        updateData.cpu="B0CGJDKLB8";
-        updateData.gpu="B0CS3TDV19";
-        updateData.storage="B0BHJJ9Y77";
-        if(rgb==="yes"){
-          updateData.ram="B0C5M7J967";
-          updateData.motherboard="B0BQD69ZSF";
-          updateData.case="B07NQ6X3X";
-          updateData.cooler="B08C51JX3R";
-        }else{
-          updateData.ram="B0C5M7J967";
-          updateData.motherboard="B0BQD69ZSF";
-          updateData.case="B07B2Y4N5N";
-          updateData.cooler="B07Y87YHRH";
+      } else {
+        updateData.cpu = "B0CGJDKLB8";
+        updateData.gpu = "B0CS3TDV19";
+        updateData.storage = "B0BHJJ9Y77";
+        if (rgb === "yes") {
+          updateData.ram = "B0C5M7J967";
+          updateData.motherboard = "B0BQD69ZSF";
+          updateData.case = "B07NQ6X3X";
+          updateData.cooler = "B08C51JX3R";
+        } else {
+          updateData.ram = "B0C5M7J967";
+          updateData.motherboard = "B0BQD69ZSF";
+          updateData.case = "B07B2Y4N5N";
+          updateData.cooler = "B07Y87YHRH";
         }
       }
-      updateData.power="B07WDQTTWH";
+      updateData.power = "B07WDQTTWH";
     }
     await updateDoc(userDocRef, updateData);
     onExit();
@@ -260,13 +260,17 @@ const MenuBar = () => {
     <nav className="navbar">
       <h2 className="logo">PC Picker</h2>
       <div className="menu">
+
         <button className="button" onClick={() => setQuiz(true)}>Take Quiz</button>
         <ShowQuiz show={quiz} onExit={() => setQuiz(false)} />
         <Link to="/">Home</Link>
+
+        <Link to="/">Login</Link>
+
         <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link>
-      </div>
-    </nav>
+      </div >
+    </nav >
   );
 };
 
